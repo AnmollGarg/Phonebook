@@ -1,0 +1,15 @@
+{
+    "name": "phonebook.anmolgarg",
+    "description": "A professional phonebook application for managing contacts",
+    "architecture": "@CLICK_ARCH@",
+    "title": "OS-OSi-Phonebook",
+    "hooks": {
+        "phonebook": {
+            "apparmor": "phonebook.apparmor",
+            "desktop":  "phonebook.desktop"
+        }
+    },
+    "version": "1.0.0",
+    "maintainer": "Anmol Garg <anmol.g@calin.co.in>",
+    "framework" : "@CLICK_FRAMEWORK@"
+}

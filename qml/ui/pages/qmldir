@@ -1,0 +1,9 @@
+module pages
+MainPage 1.0 MainPage.qml
+SearchPage 1.0 SearchPage.qml
+ContactInfoPage 1.0 ContactInfoPage.qml
+UserProfilePage 1.0 UserProfilePage.qml
+CallHistoryPage 1.0 CallHistoryPage.qml
+NewContactPage 1.0 NewContactPage.qml
+SettingsPage 1.0 SettingsPage.qml
+

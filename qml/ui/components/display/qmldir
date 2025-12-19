@@ -1,0 +1,8 @@
+module display
+Favorites 1.0 Favorites.qml
+Recents 1.0 Recents.qml
+FavoriteItemDelegate 1.0 FavoriteItemDelegate.qml
+RecentCallItemDelegate 1.0 RecentCallItemDelegate.qml
+ContactListItemDelegate 1.0 ContactListItemDelegate.qml
+Avatar 1.0 Avatar.qml
+
