@@ -52,18 +52,25 @@ Page {
         
         trailingActionBar.actions: [
             Action {
-                iconName: isSearchMode ? "close" : "search"
+                iconName: isSearchMode ? "close" : "find"
                 text: isSearchMode ? i18n.tr("Close Search") : i18n.tr("Search")
                 onTriggered: {
                     toggleSearch()
                 }
             },
             Action {
-                iconName: "settings"
-                text: i18n.tr("Settings")
+                iconName: "contact-group"
+                text: i18n.tr("Groups")
                 onTriggered: {
-                    console.log("MainPage: settingsClicked signal received")
-                    mainPage.settingsClicked()
+                    var pageStack = findPageStack(mainPage)
+                    if (pageStack) {
+                        console.log("Opening GroupsPage")
+                        var pageUrl = Qt.resolvedUrl("../../ui/pages/GroupsPage.qml")
+                        console.log("Resolved URL:", pageUrl)
+                        pageStack.addPageToNextColumn(mainPage, pageUrl)
+                    } else {
+                        console.log("Error: Could not find pageStack")
+                    }
                 }
             },
             Action {
@@ -73,13 +80,21 @@ Page {
                     console.log("MainPage: avatarClicked signal received")
                     mainPage.avatarClicked()
                 }
+            },
+            Action {
+                iconName: "settings"
+                text: i18n.tr("Settings")
+                onTriggered: {
+                    console.log("MainPage: settingsClicked signal received")
+                    mainPage.settingsClicked()
+                }
             }
         ]
     }
 
     Item {
         anchors.fill: parent
-        anchors.topMargin: header.height
+        anchors.topMargin: header.height + units.gu(2)
 
         Column {
             anchors.fill: parent

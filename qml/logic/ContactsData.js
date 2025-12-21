@@ -418,8 +418,150 @@ function deleteContact(id) {
     for (var i = 0; i < contacts.length; i++) {
         if (contacts[i].id === id) {
             contacts.splice(i, 1);
+            // Also remove contact from all groups
+            for (var j = 0; j < groups.length; j++) {
+                var contactIndex = groups[j].contactIds.indexOf(id);
+                if (contactIndex !== -1) {
+                    groups[j].contactIds.splice(contactIndex, 1);
+                }
+            }
             return true;
         }
+    }
+    return false;
+}
+
+// Groups data storage
+var groups = [
+    {
+        id: 1,
+        name: "Family",
+        description: "Family members and relatives",
+        contactIds: [1, 2, 3]
+    },
+    {
+        id: 2,
+        name: "Work",
+        description: "Colleagues and work contacts",
+        contactIds: [4, 5, 6]
+    },
+    {
+        id: 3,
+        name: "Friends",
+        description: "Close friends",
+        contactIds: [7, 8, 9]
+    }
+];
+
+// Get all groups
+function getAllGroups() {
+    return groups;
+}
+
+// Get group by ID
+function getGroupById(id) {
+    for (var i = 0; i < groups.length; i++) {
+        if (groups[i].id === id) {
+            return groups[i];
+        }
+    }
+    return null;
+}
+
+// Create a new group
+function createGroup(groupData) {
+    // Find the highest ID and increment
+    var maxId = 0;
+    for (var i = 0; i < groups.length; i++) {
+        if (groups[i].id > maxId) {
+            maxId = groups[i].id;
+        }
+    }
+    
+    var newId = maxId + 1;
+    var newGroup = {
+        id: newId,
+        name: groupData.name || "New Group",
+        description: groupData.description || "",
+        contactIds: groupData.contactIds || []
+    };
+    
+    groups.push(newGroup);
+    return newGroup;
+}
+
+// Update group by ID
+function updateGroup(id, updatedData) {
+    for (var i = 0; i < groups.length; i++) {
+        if (groups[i].id === id) {
+            if (updatedData.name !== undefined) {
+                groups[i].name = updatedData.name;
+            }
+            if (updatedData.description !== undefined) {
+                groups[i].description = updatedData.description;
+            }
+            if (updatedData.contactIds !== undefined) {
+                groups[i].contactIds = updatedData.contactIds;
+            }
+            return groups[i];
+        }
+    }
+    return null;
+}
+
+// Delete group by ID
+function deleteGroup(id) {
+    for (var i = 0; i < groups.length; i++) {
+        if (groups[i].id === id) {
+            groups.splice(i, 1);
+            return true;
+        }
+    }
+    return false;
+}
+
+// Get contacts in a group
+function getContactsInGroup(groupId) {
+    var group = getGroupById(groupId);
+    if (!group) {
+        return [];
+    }
+    
+    var groupContacts = [];
+    for (var i = 0; i < group.contactIds.length; i++) {
+        var contact = getContactById(group.contactIds[i]);
+        if (contact) {
+            groupContacts.push(contact);
+        }
+    }
+    return groupContacts;
+}
+
+// Add contact to group
+function addContactToGroup(groupId, contactId) {
+    var group = getGroupById(groupId);
+    if (!group) {
+        return false;
+    }
+    
+    if (group.contactIds.indexOf(contactId) === -1) {
+        group.contactIds.push(contactId);
+        return true;
+    }
+    return false;
+}
+
+// Remove contact from group
+function removeContactFromGroup(groupId, contactId) {
+    var group = getGroupById(groupId);
+    if (!group) {
+        return false;
+    }
+    
+    var index = group.contactIds.indexOf(contactId);
+    if (index !== -1) {
+        group.contactIds.splice(index, 1);
+        return true;
     }
     return false;
 }

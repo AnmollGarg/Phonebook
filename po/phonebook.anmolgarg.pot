@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phonebook.anmolgarg\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-19 04:55+0000\n"
+"POT-Creation-Date: 2025-12-21 06:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,6 +26,7 @@ msgid "Message"
 msgstr ""
 
 #: ../qml/ui/components/display/ContactListItemDelegate.qml:38
+#: ../qml/ui/pages/GroupsPage.qml:149
 msgid "Delete"
 msgstr ""
 
@@ -58,11 +59,12 @@ msgstr ""
 msgid "Contact Info"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:32
+#: ../qml/ui/pages/ContactInfoPage.qml:32 ../qml/ui/pages/GroupInfoPage.qml:101
 msgid "Edit"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:32 ../qml/ui/pages/NewContactPage.qml:25
+#: ../qml/ui/pages/ContactInfoPage.qml:32 ../qml/ui/pages/GroupInfoPage.qml:101
+#: ../qml/ui/pages/NewContactPage.qml:25 ../qml/ui/pages/NewGroupPage.qml:51
 msgid "Save"
 msgstr ""
 
@@ -120,6 +122,94 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
+#: ../qml/ui/pages/GroupInfoPage.qml:96
+msgid "Group Info"
+msgstr ""
+
+#: ../qml/ui/pages/GroupInfoPage.qml:112
+msgid "Delete Group"
+msgstr ""
+
+#: ../qml/ui/pages/GroupInfoPage.qml:148 ../qml/ui/pages/NewGroupPage.qml:110
+msgid "Group Name"
+msgstr ""
+
+#: ../qml/ui/pages/GroupInfoPage.qml:157 ../qml/ui/pages/NewGroupPage.qml:118
+msgid "Enter group name"
+msgstr ""
+
+#: ../qml/ui/pages/GroupInfoPage.qml:185 ../qml/ui/pages/NewGroupPage.qml:136
+msgid "Description"
+msgstr ""
+
+#: ../qml/ui/pages/GroupInfoPage.qml:195 ../qml/ui/pages/NewGroupPage.qml:145
+msgid "Enter group description (optional)"
+msgstr ""
+
+#: ../qml/ui/pages/GroupInfoPage.qml:202
+msgid "No description"
+msgstr ""
+
+#: ../qml/ui/pages/GroupInfoPage.qml:227
+msgid "Contacts in Group"
+msgstr ""
+
+#: ../qml/ui/pages/GroupInfoPage.qml:227 ../qml/ui/pages/NewGroupPage.qml:163
+msgid "Select Contacts"
+msgstr ""
+
+#: ../qml/ui/pages/GroupInfoPage.qml:250 ../qml/ui/pages/NewGroupPage.qml:173
+msgid "No contacts selected"
+msgstr ""
+
+#: ../qml/ui/pages/GroupInfoPage.qml:252 ../qml/ui/pages/NewGroupPage.qml:175
+msgid "1 contact selected"
+msgstr ""
+
+#: ../qml/ui/pages/GroupInfoPage.qml:254 ../qml/ui/pages/NewGroupPage.qml:177
+msgid "%1 contacts selected"
+msgstr ""
+
+#: ../qml/ui/pages/GroupInfoPage.qml:358
+msgid "Remove from Group"
+msgstr ""
+
+#: ../qml/ui/pages/GroupInfoPage.qml:374 ../qml/ui/pages/NewGroupPage.qml:264
+msgid "No contacts available"
+msgstr ""
+
+#: ../qml/ui/pages/GroupInfoPage.qml:374
+msgid "No contacts in this group"
+msgstr ""
+
+#: ../qml/ui/pages/GroupsPage.qml:26 ../qml/ui/pages/MainPage.qml:63
+msgid "Groups"
+msgstr ""
+
+#: ../qml/ui/pages/GroupsPage.qml:31 ../qml/ui/pages/NewGroupPage.qml:46
+msgid "New Group"
+msgstr ""
+
+#: ../qml/ui/pages/GroupsPage.qml:63
+msgid "Contact Groups"
+msgstr ""
+
+#: ../qml/ui/pages/GroupsPage.qml:105
+msgid "Unnamed Group"
+msgstr ""
+
+#: ../qml/ui/pages/GroupsPage.qml:115
+msgid "1 contact"
+msgstr ""
+
+#: ../qml/ui/pages/GroupsPage.qml:117
+msgid "%1 contacts"
+msgstr ""
+
+#: ../qml/ui/pages/GroupsPage.qml:163
+msgid "No groups yet. Create one to get started!"
+msgstr ""
+
 #: ../qml/ui/pages/MainPage.qml:51
 msgid "Phonebook"
 msgstr ""
@@ -132,19 +222,19 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: ../qml/ui/pages/MainPage.qml:63 ../qml/ui/pages/SettingsPage.qml:16
-msgid "Settings"
-msgstr ""
-
-#: ../qml/ui/pages/MainPage.qml:71 ../qml/ui/pages/UserProfilePage.qml:10
+#: ../qml/ui/pages/MainPage.qml:78 ../qml/ui/pages/UserProfilePage.qml:10
 msgid "Profile"
 msgstr ""
 
-#: ../qml/ui/pages/MainPage.qml:133
+#: ../qml/ui/pages/MainPage.qml:86 ../qml/ui/pages/SettingsPage.qml:16
+msgid "Settings"
+msgstr ""
+
+#: ../qml/ui/pages/MainPage.qml:148
 msgid "Search Results"
 msgstr ""
 
-#: ../qml/ui/pages/MainPage.qml:181 ../qml/ui/pages/SearchPage.qml:98
+#: ../qml/ui/pages/MainPage.qml:196 ../qml/ui/pages/SearchPage.qml:98
 msgid "No contacts found"
 msgstr ""
 

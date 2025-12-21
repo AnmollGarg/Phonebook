@@ -1,3 +1,4 @@
 module logic
 ContactsService 1.0 ContactsService.qml
+GroupsService 1.0 GroupsService.qml
 

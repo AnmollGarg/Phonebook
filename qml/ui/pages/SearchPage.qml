@@ -24,7 +24,7 @@ Page {
 
     Column {
         anchors.fill: parent
-        anchors.topMargin: header.height
+        anchors.topMargin: header.height + units.gu(2)
         spacing: units.gu(1)
 
         // Search Field

@@ -6,4 +6,7 @@ UserProfilePage 1.0 UserProfilePage.qml
 CallHistoryPage 1.0 CallHistoryPage.qml
 NewContactPage 1.0 NewContactPage.qml
 SettingsPage 1.0 SettingsPage.qml
+GroupsPage 1.0 GroupsPage.qml
+NewGroupPage 1.0 NewGroupPage.qml
+GroupInfoPage 1.0 GroupInfoPage.qml
 

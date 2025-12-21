@@ -19,7 +19,7 @@ Page {
     Flickable {
         id: flickable
         anchors.fill: parent
-        anchors.topMargin: header.height
+        anchors.topMargin: header.height + units.gu(2)
         anchors.leftMargin: units.gu(1)
         anchors.rightMargin: units.gu(1)
         anchors.bottomMargin: units.gu(2)
