@@ -1,5 +1,7 @@
 module widget
 FloatingActionButton 1.0 FloatingActionButton.qml
+TabbedView 1.0 TabbedView.qml
+NotesEditor 1.0 NotesEditor.qml
 
 
 

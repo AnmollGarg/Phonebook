@@ -6,6 +6,7 @@ import QtQuick.Controls 2.7 as Controls
 
 import "../../logic" 1.0
 import "../components/display" 1.0
+import "../components/widget" 1.0
 
 Page {
     id: contactInfoPage
@@ -22,6 +23,8 @@ Page {
     property string editCountryCode: ""
     property bool editIsFavorite: false
     property string editContactType: "individual" // "individual" or "company"
+    property string editNotes: ""
+    property string activeTab: "info" // "info" or "notes"
 
     header: PageHeader {
         title: contact ? contact.fullName : i18n.tr("Contact Info")
@@ -65,6 +68,7 @@ Page {
             editCountryCode = contact.countryCode || "";
             editIsFavorite = contact.isFavorite || false;
             editContactType = contact.contactType || "individual";
+            editNotes = contact.notes || "";
         }
     }
 
@@ -89,7 +93,8 @@ Page {
             email: editEmail,
             countryCode: editCountryCode,
             isFavorite: editIsFavorite,
-            contactType: editContactType
+            contactType: editContactType,
+            notes: editNotes
         };
         
         var updated = contactsService.updateContact(contactId, updatedData);
@@ -99,21 +104,44 @@ Page {
         }
     }
 
-    Flickable {
-        id: flickable
+    Item {
+        id: mainContainer
         anchors.fill: parent
-        anchors.topMargin: header.height + units.gu(2)
-        anchors.leftMargin: units.gu(2)
-        anchors.rightMargin: units.gu(2)
-        anchors.bottomMargin: units.gu(2)
-        contentWidth: column.width
-        contentHeight: column.height
-        clip: true
+        anchors.topMargin: header.height
 
-        Column {
-            id: column
-            width: flickable.width
-            spacing: units.gu(2)
+        TabbedView {
+            id: tabbedView
+            anchors.fill: parent
+            tabs: [
+                {label: i18n.tr("Info"), key: "info"},
+                {label: i18n.tr("Notes"), key: "notes"}
+            ]
+            currentTab: activeTab
+            
+            onTabSelected: {
+                activeTab = tabKey
+            }
+
+            // Info Tab Content
+            Flickable {
+                id: flickable
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.top: parent.top
+                anchors.topMargin: tabbedView.tabHeight
+                anchors.bottom: parent.bottom
+                visible: activeTab === "info"
+                contentWidth: column.width
+                contentHeight: Math.max(column.height + units.gu(4), height)
+                flickableDirection: Flickable.VerticalFlick
+                clip: true
+
+                Column {
+                    id: column
+                    width: flickable.width - units.gu(4)
+                    x: units.gu(2)
+                    y: units.gu(2)
+                    spacing: units.gu(2)
 
             // Avatar
             Item {
@@ -368,6 +396,27 @@ Page {
                     fontSize: "medium"
                     width: parent.width
                     wrapMode: Text.WordWrap
+                }
+            }
+            }
+        }
+
+            // Notes Tab Content
+            NotesEditor {
+                id: notesEditor
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.top: parent.top
+                anchors.topMargin: tabbedView.tabHeight
+                anchors.bottom: parent.bottom
+                visible: activeTab === "notes"
+                notes: editNotes
+                isEditMode: contactInfoPage.isEditMode
+                placeholderText: i18n.tr("Add notes about this contact...")
+                labelText: i18n.tr("Notes")
+                
+                onTextChanged: {
+                    editNotes = newText
                 }
             }
         }

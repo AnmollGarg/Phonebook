@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phonebook.anmolgarg\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-22 04:45+0000\n"
+"POT-Creation-Date: 2025-12-22 10:40+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,6 +46,16 @@ msgstr ""
 msgid "Search contacts..."
 msgstr ""
 
+#: ../qml/ui/components/widget/NotesEditor.qml:10
+msgid "Add notes..."
+msgstr ""
+
+#: ../qml/ui/components/widget/NotesEditor.qml:11
+#: ../qml/ui/pages/ContactInfoPage.qml:117
+#: ../qml/ui/pages/ContactInfoPage.qml:416
+msgid "Notes"
+msgstr ""
+
 #: ../qml/ui/pages/CallHistoryPage.qml:17
 #: ../qml/ui/pages/CallHistoryPage.qml:98
 msgid "Call History"
@@ -55,72 +65,80 @@ msgstr ""
 msgid "No call history"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:27
+#: ../qml/ui/pages/ContactInfoPage.qml:30
 msgid "Contact Info"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:32 ../qml/ui/pages/GroupInfoPage.qml:101
+#: ../qml/ui/pages/ContactInfoPage.qml:35 ../qml/ui/pages/GroupInfoPage.qml:101
 msgid "Edit"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:32 ../qml/ui/pages/GroupInfoPage.qml:101
+#: ../qml/ui/pages/ContactInfoPage.qml:35 ../qml/ui/pages/GroupInfoPage.qml:101
 #: ../qml/ui/pages/NewContactPage.qml:25 ../qml/ui/pages/NewGroupPage.qml:51
 #: ../qml/ui/pages/SettingsPage.qml:71
 msgid "Save"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:140
+#: ../qml/ui/pages/ContactInfoPage.qml:116
+msgid "Info"
+msgstr ""
+
+#: ../qml/ui/pages/ContactInfoPage.qml:168
 #: ../qml/ui/pages/NewContactPage.qml:120
 msgid "First Name"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:148
+#: ../qml/ui/pages/ContactInfoPage.qml:176
 #: ../qml/ui/pages/NewContactPage.qml:128
 msgid "Last Name"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:176
+#: ../qml/ui/pages/ContactInfoPage.qml:204
 msgid "Contact Type"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:198
-#: ../qml/ui/pages/ContactInfoPage.qml:235
+#: ../qml/ui/pages/ContactInfoPage.qml:226
+#: ../qml/ui/pages/ContactInfoPage.qml:263
 msgid "Individual"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:221
-#: ../qml/ui/pages/ContactInfoPage.qml:235
+#: ../qml/ui/pages/ContactInfoPage.qml:249
+#: ../qml/ui/pages/ContactInfoPage.qml:263
 msgid "Company"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:254
+#: ../qml/ui/pages/ContactInfoPage.qml:282
 #: ../qml/ui/pages/NewContactPage.qml:146
 #: ../qml/ui/pages/UserProfilePage.qml:91
 msgid "Phone"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:287
+#: ../qml/ui/pages/ContactInfoPage.qml:315
 #: ../qml/ui/pages/NewContactPage.qml:171
 #: ../qml/ui/pages/UserProfilePage.qml:66
 msgid "Email"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:321
+#: ../qml/ui/pages/ContactInfoPage.qml:349
 #: ../qml/ui/pages/NewContactPage.qml:197
 msgid "Country Code"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:354
+#: ../qml/ui/pages/ContactInfoPage.qml:382
 #: ../qml/ui/pages/NewContactPage.qml:222
 msgid "Favorite"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:367
+#: ../qml/ui/pages/ContactInfoPage.qml:395
 msgid "No"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:367
+#: ../qml/ui/pages/ContactInfoPage.qml:395
 msgid "Yes"
+msgstr ""
+
+#: ../qml/ui/pages/ContactInfoPage.qml:415
+msgid "Add notes about this contact..."
 msgstr ""
 
 #: ../qml/ui/pages/GroupInfoPage.qml:96
