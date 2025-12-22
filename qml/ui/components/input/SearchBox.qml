@@ -6,6 +6,7 @@ import QtQuick.Layouts 1.3
 Rectangle {
     id: searchBox
     implicitHeight: units.gu(6)
+    color: "transparent"
 
     property bool showAvatar: true
     property bool editable: false

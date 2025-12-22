@@ -15,6 +15,42 @@ MainView {
     height: units.gu(75)
 
     property bool splashScreenVisible: true
+    
+    // Theme settings with persistence
+    Settings {
+        id: appSettings
+        property string themeMode: "light" // "light" or "dark"
+        
+        onThemeModeChanged: {
+            updateTheme()
+        }
+    }
+    
+    // Apply theme based on settings - use theme.name property
+    theme.name: appSettings.themeMode === "dark" ? 
+                "Lomiri.Components.Themes.SuruDark" : 
+                "Lomiri.Components.Themes.Ambiance"
+    
+    // Initialize theme on startup
+    Component.onCompleted: {
+        updateTheme()
+    }
+    
+    // Function to update theme
+    function updateTheme() {
+        if (appSettings.themeMode === "dark") {
+            theme.name = "Lomiri.Components.Themes.SuruDark"
+        } else {
+            theme.name = "Lomiri.Components.Themes.Ambiance"
+        }
+    }
+    
+    // Function to change theme (called from SettingsPage)
+    function setTheme(mode) {
+        appSettings.themeMode = mode
+        // Explicitly update theme immediately
+        updateTheme()
+    }
 
     // Splash Screen
     Loader {

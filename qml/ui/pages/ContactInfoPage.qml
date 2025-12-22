@@ -183,24 +183,48 @@ Page {
                     spacing: units.gu(2)
                     visible: isEditMode
 
-                    Controls.RadioButton {
-                        id: individualRadio
-                        text: i18n.tr("Individual")
-                        checked: editContactType === "individual"
-                        onCheckedChanged: {
-                            if (checked) {
-                                editContactType = "individual"
+                    Row {
+                        spacing: units.gu(1)
+                        Controls.RadioButton {
+                            id: individualRadio
+                            checked: editContactType === "individual"
+                            onCheckedChanged: {
+                                if (checked) {
+                                    editContactType = "individual"
+                                }
+                            }
+                        }
+                        Label {
+                            text: i18n.tr("Individual")
+                            anchors.verticalCenter: parent.verticalCenter
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: {
+                                    individualRadio.checked = true
+                                }
                             }
                         }
                     }
 
-                    Controls.RadioButton {
-                        id: companyRadio
-                        text: i18n.tr("Company")
-                        checked: editContactType === "company"
-                        onCheckedChanged: {
-                            if (checked) {
-                                editContactType = "company"
+                    Row {
+                        spacing: units.gu(1)
+                        Controls.RadioButton {
+                            id: companyRadio
+                            checked: editContactType === "company"
+                            onCheckedChanged: {
+                                if (checked) {
+                                    editContactType = "company"
+                                }
+                            }
+                        }
+                        Label {
+                            text: i18n.tr("Company")
+                            anchors.verticalCenter: parent.verticalCenter
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: {
+                                    companyRadio.checked = true
+                                }
                             }
                         }
                     }

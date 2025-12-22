@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phonebook.anmolgarg\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-21 06:39+0000\n"
+"POT-Creation-Date: 2025-12-22 04:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,7 +42,7 @@ msgstr ""
 msgid "No contacts"
 msgstr ""
 
-#: ../qml/ui/components/input/SearchBox.qml:41
+#: ../qml/ui/components/input/SearchBox.qml:42
 msgid "Search contacts..."
 msgstr ""
 
@@ -65,6 +65,7 @@ msgstr ""
 
 #: ../qml/ui/pages/ContactInfoPage.qml:32 ../qml/ui/pages/GroupInfoPage.qml:101
 #: ../qml/ui/pages/NewContactPage.qml:25 ../qml/ui/pages/NewGroupPage.qml:51
+#: ../qml/ui/pages/SettingsPage.qml:71
 msgid "Save"
 msgstr ""
 
@@ -82,43 +83,43 @@ msgstr ""
 msgid "Contact Type"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:188
-#: ../qml/ui/pages/ContactInfoPage.qml:211
+#: ../qml/ui/pages/ContactInfoPage.qml:198
+#: ../qml/ui/pages/ContactInfoPage.qml:235
 msgid "Individual"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:199
-#: ../qml/ui/pages/ContactInfoPage.qml:211
+#: ../qml/ui/pages/ContactInfoPage.qml:221
+#: ../qml/ui/pages/ContactInfoPage.qml:235
 msgid "Company"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:230
+#: ../qml/ui/pages/ContactInfoPage.qml:254
 #: ../qml/ui/pages/NewContactPage.qml:146
 #: ../qml/ui/pages/UserProfilePage.qml:91
 msgid "Phone"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:263
+#: ../qml/ui/pages/ContactInfoPage.qml:287
 #: ../qml/ui/pages/NewContactPage.qml:171
 #: ../qml/ui/pages/UserProfilePage.qml:66
 msgid "Email"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:297
+#: ../qml/ui/pages/ContactInfoPage.qml:321
 #: ../qml/ui/pages/NewContactPage.qml:197
 msgid "Country Code"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:330
+#: ../qml/ui/pages/ContactInfoPage.qml:354
 #: ../qml/ui/pages/NewContactPage.qml:222
 msgid "Favorite"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:343
+#: ../qml/ui/pages/ContactInfoPage.qml:367
 msgid "No"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:343
+#: ../qml/ui/pages/ContactInfoPage.qml:367
 msgid "Yes"
 msgstr ""
 
@@ -226,15 +227,15 @@ msgstr ""
 msgid "Profile"
 msgstr ""
 
-#: ../qml/ui/pages/MainPage.qml:86 ../qml/ui/pages/SettingsPage.qml:16
+#: ../qml/ui/pages/MainPage.qml:86 ../qml/ui/pages/SettingsPage.qml:79
 msgid "Settings"
 msgstr ""
 
-#: ../qml/ui/pages/MainPage.qml:148
+#: ../qml/ui/pages/MainPage.qml:148 ../qml/ui/pages/SearchPage.qml:52
 msgid "Search Results"
 msgstr ""
 
-#: ../qml/ui/pages/MainPage.qml:196 ../qml/ui/pages/SearchPage.qml:98
+#: ../qml/ui/pages/MainPage.qml:196 ../qml/ui/pages/SearchPage.qml:107
 msgid "No contacts found"
 msgstr ""
 
@@ -258,23 +259,35 @@ msgstr ""
 msgid "Search Contacts"
 msgstr ""
 
-#: ../qml/ui/pages/SettingsPage.qml:10
+#: ../qml/ui/pages/SettingsPage.qml:11
 msgid "Account 1"
 msgstr ""
 
-#: ../qml/ui/pages/SettingsPage.qml:11
+#: ../qml/ui/pages/SettingsPage.qml:12
 msgid "Account 2"
 msgstr ""
 
-#: ../qml/ui/pages/SettingsPage.qml:12
+#: ../qml/ui/pages/SettingsPage.qml:13
 msgid "Account 3"
 msgstr ""
 
-#: ../qml/ui/pages/SettingsPage.qml:38
+#: ../qml/ui/pages/SettingsPage.qml:102
 msgid "General"
 msgstr ""
 
-#: ../qml/ui/pages/SettingsPage.qml:56
+#: ../qml/ui/pages/SettingsPage.qml:120
+msgid "Theme"
+msgstr ""
+
+#: ../qml/ui/pages/SettingsPage.qml:143
+msgid "Light"
+msgstr ""
+
+#: ../qml/ui/pages/SettingsPage.qml:167
+msgid "Dark"
+msgstr ""
+
+#: ../qml/ui/pages/SettingsPage.qml:192
 msgid "Select an Account:"
 msgstr ""
 

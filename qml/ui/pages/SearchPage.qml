@@ -47,6 +47,15 @@ Page {
             }
         }
 
+        // Search Results Label
+        Label {
+            text: i18n.tr("Search Results")
+            fontSize: "medium"
+            font.bold: true
+            width: parent.width
+            visible: searchBox.text.trim() !== ""
+        }
+
         // Contacts List
         ListView {
             id: contactsList

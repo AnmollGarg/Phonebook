@@ -2,6 +2,7 @@
 import QtQuick 2.7
 import Lomiri.Components 1.3
 import QtQuick.Layouts 1.3
+import QtQuick.Controls 2.7 as Controls
 
 Page {
     id: settingsPage
@@ -11,9 +12,72 @@ Page {
         i18n.tr("Account 2"),
         i18n.tr("Account 3")
     ]
+    
+    property string selectedTheme: "light" // "light" or "dark"
+    property bool hasChanges: false
+    
+    // Function to find MainView to access theme settings
+    function findMainView(item) {
+        var current = item
+        while (current) {
+            // Check if this is the MainView by checking for objectName
+            if (current.objectName === 'mainView') {
+                return current
+            }
+            // Also check if it has setTheme function and appSettings
+            if (current.setTheme && current.appSettings) {
+                return current
+            }
+            current = current.parent
+            // Safety check to avoid infinite loops
+            if (!current || current === settingsPage) {
+                break
+            }
+        }
+        return null
+    }
+    
+    // Load current theme on page load
+    Component.onCompleted: {
+        var mainView = findMainView(settingsPage)
+        if (mainView && mainView.appSettings) {
+            var currentTheme = mainView.appSettings.themeMode
+            if (currentTheme) {
+                selectedTheme = currentTheme
+            } else {
+                selectedTheme = "light"
+            }
+            console.log("Loaded theme from settings:", selectedTheme)
+        } else {
+            console.log("Warning: Could not find MainView or appSettings")
+        }
+    }
+    
+    // Save theme settings
+    function saveSettings() {
+        var mainView = findMainView(settingsPage)
+        if (mainView && mainView.setTheme) {
+            mainView.setTheme(selectedTheme)
+            hasChanges = false
+            console.log("Theme saved:", selectedTheme)
+        } else {
+            console.log("Error: Could not find MainView or setTheme function")
+        }
+    }
+    
+    Action {
+        id: saveAction
+        iconName: "tick"
+        text: i18n.tr("Save")
+        enabled: hasChanges
+        onTriggered: {
+            saveSettings()
+        }
+    }
 
     header: PageHeader {
         title: i18n.tr("Settings")
+        trailingActionBar.actions: [saveAction]
     }
 
     Flickable {
@@ -47,6 +111,78 @@ Page {
                 color: Qt.rgba(0, 0, 0, 0.1)
             }
 
+            // Theme Selection
+            Column {
+                width: parent.width
+                spacing: units.gu(1)
+
+                Label {
+                    text: i18n.tr("Theme")
+                    fontSize: "medium"
+                    font.bold: true
+                    width: parent.width
+                }
+
+                Row {
+                    width: parent.width
+                    spacing: units.gu(2)
+
+                    Row {
+                        spacing: units.gu(1)
+                        Controls.RadioButton {
+                            id: lightThemeRadio
+                            checked: selectedTheme === "light"
+                            onCheckedChanged: {
+                                if (checked) {
+                                    selectedTheme = "light"
+                                    hasChanges = true
+                                }
+                            }
+                        }
+                        Label {
+                            text: i18n.tr("Light")
+                            anchors.verticalCenter: parent.verticalCenter
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: {
+                                    lightThemeRadio.checked = true
+                                }
+                            }
+                        }
+                    }
+
+                    Row {
+                        spacing: units.gu(1)
+                        Controls.RadioButton {
+                            id: darkThemeRadio
+                            checked: selectedTheme === "dark"
+                            onCheckedChanged: {
+                                if (checked) {
+                                    selectedTheme = "dark"
+                                    hasChanges = true
+                                }
+                            }
+                        }
+                        Label {
+                            text: i18n.tr("Dark")
+                            anchors.verticalCenter: parent.verticalCenter
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: {
+                                    darkThemeRadio.checked = true
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            Rectangle {
+                width: parent.width
+                height: 1
+                color: Qt.rgba(0, 0, 0, 0.1)
+            }
+
             // Account Selection
             Column {
                 width: parent.width
@@ -70,4 +206,5 @@ Page {
                 }
             }
         }
-    }}
+    }
+}
