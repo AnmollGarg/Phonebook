@@ -2,7 +2,7 @@
 import QtQuick 2.7
 import Lomiri.Components 1.3
 
-Flickable {
+Item {
     id: notesEditor
     
     // Properties
@@ -11,14 +11,23 @@ Flickable {
     property string labelText: i18n.tr("Notes")
     property int textAreaHeight: units.gu(25)
     property bool isEditMode: false
+    property bool isExpanded: false
+    property int collapsedLines: 3 // Number of lines to show when collapsed
     
     // Signal emitted when notes text changes (using different name to avoid conflict with property change signal)
     signal textChanged(string newText)
     
-    contentWidth: notesColumn.width
-    contentHeight: Math.max(notesColumn.height + units.gu(4), height)
-    flickableDirection: Flickable.VerticalFlick
-    clip: true
+    Flickable {
+        id: flickable
+        anchors.fill: parent
+        contentWidth: notesColumn.width
+        contentHeight: Math.max(notesColumn.height + units.gu(4), height)
+        flickableDirection: Flickable.VerticalFlick
+        clip: true
+        
+        Behavior on contentHeight {
+            NumberAnimation { duration: 300 }
+        }
     
     Column {
         id: notesColumn
@@ -34,14 +43,27 @@ Flickable {
             width: parent.width
         }
         
-        // Read-only view (when not in edit mode)
-        Label {
+        // Read-only view with expansion (when not in edit mode)
+        Item {
             visible: !notesEditor.isEditMode
-            text: notesEditor.notes || notesEditor.placeholderText
             width: parent.width
-            wrapMode: Text.WordWrap
-            fontSize: "medium"
-            color: notesEditor.notes ? theme.palette.normal.baseText : theme.palette.normal.backgroundSecondaryText
+            height: notesLabel.height
+            clip: !notesEditor.isExpanded
+            
+            Behavior on height {
+                NumberAnimation { duration: 300 }
+            }
+            
+            Text {
+                id: notesLabel
+                text: notesEditor.notes || notesEditor.placeholderText
+                width: parent.width
+                wrapMode: Text.WordWrap
+                font.pixelSize: units.gu(2)
+                color: notesEditor.notes ? theme.palette.normal.baseText : theme.palette.normal.backgroundSecondaryText
+                maximumLineCount: notesEditor.isExpanded ? 0 : notesEditor.collapsedLines
+                elide: notesEditor.isExpanded ? Text.ElideNone : Text.ElideRight
+            }
         }
         
         // Editable TextArea (when in edit mode)
@@ -58,6 +80,22 @@ Flickable {
                     notesEditor.notes = text
                 }
             }
+        }
+        }
+    }
+    
+    // Floating Expansion Button
+    FloatingExpansionButton {
+        id: expansionButton
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.margins: units.gu(1.5)
+        z: 10
+        visible: !notesEditor.isEditMode && notesEditor.notes && notesEditor.notes.trim() !== ""
+        expanded: notesEditor.isExpanded
+        
+        onClicked: {
+            notesEditor.isExpanded = !notesEditor.isExpanded
         }
     }
 }
