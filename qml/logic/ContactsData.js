@@ -407,12 +407,6 @@ function updateContact(id, updatedData) {
             if (updatedData.avatar !== undefined) {
                 contacts[i].avatar = updatedData.avatar;
             }
-            if (updatedData.contactType !== undefined) {
-                contacts[i].contactType = updatedData.contactType;
-            }
-            if (updatedData.notes !== undefined) {
-                contacts[i].notes = updatedData.notes;
-            }
             return contacts[i];
         }
     }

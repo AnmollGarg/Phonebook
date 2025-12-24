@@ -6,6 +6,7 @@ import QtQuick.Layouts 1.3
 import "../../logic" 1.0
 import "../components/display" 1.0
 import "../components/input" 1.0
+import "../components/dialog" 1.0
 import "." as Pages
 
 Page {
@@ -17,6 +18,36 @@ Page {
 
     ContactsService {
         id: contactsService
+    }
+    
+    property int contactToDelete: -1
+    
+    ConfirmationDialog {
+        id: deleteConfirmationDialog
+        title: i18n.tr("Delete Contact")
+        message: i18n.tr("Are you really sure you want to delete this contact?")
+        confirmText: i18n.tr("Delete")
+        cancelText: i18n.tr("Cancel")
+        
+        onConfirmed: {
+            if (contactToDelete > 0) {
+                if (contactsService.deleteContact(contactToDelete)) {
+                    // Refresh the contact list
+                    allContacts = contactsService.getAllContacts()
+                    if (searchBox.text.trim() === "") {
+                        filteredContacts = allContacts
+                    } else {
+                        filteredContacts = contactsService.searchContacts(searchBox.text)
+                    }
+                    console.log("Contact deleted successfully")
+                }
+                contactToDelete = -1
+            }
+        }
+        
+        onCancelled: {
+            contactToDelete = -1
+        }
     }
 
     property var allContacts: contactsService.getAllContacts()
@@ -89,16 +120,8 @@ Page {
                 }
                 onDeleteClicked: {
                     console.log("Delete clicked for contact:", modelData.id)
-                    if (contactsService.deleteContact(modelData.id)) {
-                        // Refresh the contact list
-                        allContacts = contactsService.getAllContacts()
-                        if (searchBox.text.trim() === "") {
-                            filteredContacts = allContacts
-                        } else {
-                            filteredContacts = contactsService.searchContacts(searchBox.text)
-                        }
-                        console.log("Contact deleted successfully")
-                    }
+                    contactToDelete = modelData.id
+                    deleteConfirmationDialog.show()
                 }
             }
 

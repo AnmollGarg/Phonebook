@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.3
 import "../components/input" 1.0
 import "../components/display" 1.0
 import "../components/widget" 1.0
+import "../components/dialog" 1.0
 import "../../logic" 1.0
 
 Page {
@@ -21,6 +22,32 @@ Page {
 
     ContactsService {
         id: contactsService
+    }
+    
+    property int contactToDelete: -1
+    
+    ConfirmationDialog {
+        id: deleteConfirmationDialog
+        title: i18n.tr("Delete Contact")
+        message: i18n.tr("Are you really sure you want to delete this contact?")
+        confirmText: i18n.tr("Delete")
+        cancelText: i18n.tr("Cancel")
+        
+        onConfirmed: {
+            if (contactToDelete > 0) {
+                if (contactsService.deleteContact(contactToDelete)) {
+                    // Refresh contacts
+                    allContacts = contactsService.getAllContactsSorted()
+                    performSearch(searchText)
+                    console.log("Contact deleted successfully")
+                }
+                contactToDelete = -1
+            }
+        }
+        
+        onCancelled: {
+            contactToDelete = -1
+        }
     }
 
     Component.onCompleted: {
@@ -182,12 +209,8 @@ Page {
                             }
                             onDeleteClicked: {
                                 console.log("Delete clicked for contact:", modelData.id)
-                                if (contactsService.deleteContact(modelData.id)) {
-                                    // Refresh contacts
-                                    allContacts = contactsService.getAllContactsSorted()
-                                    performSearch(searchText)
-                                    console.log("Contact deleted successfully")
-                                }
+                                contactToDelete = modelData.id
+                                deleteConfirmationDialog.show()
                             }
                         }
 
