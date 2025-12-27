@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phonebook.anmolgarg\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-24 09:02+0000\n"
+"POT-Creation-Date: 2025-12-27 06:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,6 +28,7 @@ msgstr ""
 
 #: ../qml/ui/components/dialog/ConfirmationDialog.qml:12
 #: ../qml/ui/components/display/Recents.qml:27 ../qml/ui/pages/MainPage.qml:34
+#: ../qml/ui/pages/OdooSyncPage.qml:786 ../qml/ui/pages/OdooSyncPage.qml:820
 #: ../qml/ui/pages/SearchPage.qml:30
 msgid "Cancel"
 msgstr ""
@@ -43,6 +44,7 @@ msgstr ""
 #: ../qml/ui/components/display/ContactListItemDelegate.qml:38
 #: ../qml/ui/components/display/Recents.qml:26
 #: ../qml/ui/pages/GroupsPage.qml:149 ../qml/ui/pages/MainPage.qml:33
+#: ../qml/ui/pages/OdooSyncPage.qml:265 ../qml/ui/pages/OdooSyncPage.qml:810
 #: ../qml/ui/pages/SearchPage.qml:29
 msgid "Delete"
 msgstr ""
@@ -97,12 +99,13 @@ msgid "Contact Info"
 msgstr ""
 
 #: ../qml/ui/pages/ContactInfoPage.qml:35 ../qml/ui/pages/GroupInfoPage.qml:101
+#: ../qml/ui/pages/OdooSyncPage.qml:256
 msgid "Edit"
 msgstr ""
 
 #: ../qml/ui/pages/ContactInfoPage.qml:35 ../qml/ui/pages/GroupInfoPage.qml:101
 #: ../qml/ui/pages/NewContactPage.qml:25 ../qml/ui/pages/NewGroupPage.qml:51
-#: ../qml/ui/pages/SettingsPage.qml:71
+#: ../qml/ui/pages/OdooSyncPage.qml:767 ../qml/ui/pages/SettingsPage.qml:83
 msgid "Save"
 msgstr ""
 
@@ -272,7 +275,7 @@ msgstr ""
 msgid "Profile"
 msgstr ""
 
-#: ../qml/ui/pages/MainPage.qml:113 ../qml/ui/pages/SettingsPage.qml:79
+#: ../qml/ui/pages/MainPage.qml:113 ../qml/ui/pages/SettingsPage.qml:91
 msgid "Settings"
 msgstr ""
 
@@ -300,6 +303,237 @@ msgstr ""
 msgid "Country code (e.g., +1)"
 msgstr ""
 
+#: ../qml/ui/pages/OdooSyncPage.qml:11 ../qml/ui/pages/SettingsPage.qml:200
+msgid "Odoo Sync"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:104
+msgid "Error fetching databases: "
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:105
+msgid ""
+"\n"
+"\n"
+"Please try entering the database name manually."
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:169
+msgid " contacts successfully!"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:169
+msgid "Imported "
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:190
+msgid "Odoo Accounts"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:197
+msgid "Add Account"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:250
+msgid "Sync"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:280
+msgid "No accounts configured"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:295
+msgid "Sync Status"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:324
+msgid "Synced Contacts"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:331
+msgid "Import to Contacts"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:347
+msgid "Contacts"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:390
+msgid "... and "
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:405
+msgid "Add Odoo Account"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:427 ../qml/ui/pages/OdooSyncPage.qml:725
+msgid "Account Name"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:433
+msgid "My Company Odoo"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:437 ../qml/ui/pages/OdooSyncPage.qml:732
+msgid "Server URL"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:443
+msgid "https://yourcompany.odoo.com"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:448 ../qml/ui/pages/OdooSyncPage.qml:460
+msgid "Fetch Databases"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:454
+msgid "Fetching..."
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:468
+msgid "Or continue without fetching to enter database name manually"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:477
+msgid "Skip - Enter Manually"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:494
+msgid "Select Database"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:499
+msgid " database(s). Select one:"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:499
+msgid "Found "
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:499
+msgid "No databases found"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:542
+msgid "Click 'Next' to enter database name manually"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:558
+msgid "Database: "
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:558
+msgid "Enter Database Name"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:566
+msgid "Database name"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:577 ../qml/ui/pages/OdooSyncPage.qml:746
+msgid "Username"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:583
+msgid "your.email@company.com"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:594
+msgid "Authentication Method"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:603 ../qml/ui/pages/OdooSyncPage.qml:617
+msgid "API Key"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:609 ../qml/ui/pages/OdooSyncPage.qml:617
+msgid "Password"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:623
+msgid "Enter API key"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:623
+msgid "Enter password"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:635
+msgid "Back"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:640
+msgid "Connect"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:640
+msgid "Next"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:675
+msgid "Please fill all required fields:\n"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:680
+msgid "Please select a database"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:685
+msgid "Please enter database name"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:688
+msgid "Please enter username"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:713
+msgid "Edit Account"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:739
+msgid "Database Name"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:753
+msgid "API Key (optional)"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:760
+msgid "Password (optional)"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:798
+msgid "Delete Account"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:804
+msgid "'? This action cannot be undone."
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:804
+msgid "Are you sure you want to delete account '"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:832
+msgid "Success"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:835
+msgid "Operation completed successfully"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:841 ../qml/ui/pages/OdooSyncPage.qml:862
+msgid "OK"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:853
+msgid "Error"
+msgstr ""
+
+#: ../qml/ui/pages/OdooSyncPage.qml:856
+msgid "An error occurred"
+msgstr ""
+
 #: ../qml/ui/pages/SearchPage.qml:16
 msgid "Search Contacts"
 msgstr ""
@@ -316,24 +550,28 @@ msgstr ""
 msgid "Account 3"
 msgstr ""
 
-#: ../qml/ui/pages/SettingsPage.qml:102
+#: ../qml/ui/pages/SettingsPage.qml:114
 msgid "General"
 msgstr ""
 
-#: ../qml/ui/pages/SettingsPage.qml:120
+#: ../qml/ui/pages/SettingsPage.qml:132
 msgid "Theme"
 msgstr ""
 
-#: ../qml/ui/pages/SettingsPage.qml:143
+#: ../qml/ui/pages/SettingsPage.qml:155
 msgid "Light"
 msgstr ""
 
-#: ../qml/ui/pages/SettingsPage.qml:167
+#: ../qml/ui/pages/SettingsPage.qml:179
 msgid "Dark"
 msgstr ""
 
-#: ../qml/ui/pages/SettingsPage.qml:192
-msgid "Select an Account:"
+#: ../qml/ui/pages/SettingsPage.qml:213
+msgid "Manage Odoo Sync"
+msgstr ""
+
+#: ../qml/ui/pages/SettingsPage.qml:224
+msgid "Sync your contacts with Odoo server"
 msgstr ""
 
 #: ../qml/ui/pages/SplashScreen.qml:45 phonebook.desktop.in.h:1

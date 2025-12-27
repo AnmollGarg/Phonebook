@@ -366,7 +366,11 @@ function createContact(contactData) {
         countryCode: contactData.countryCode || "",
         email: contactData.email || "",
         avatar: contactData.avatar || "../../assets/avatar.png",
-        isFavorite: contactData.isFavorite || false
+        isFavorite: contactData.isFavorite || false,
+        odoo_record_id: contactData.odoo_record_id || null,
+        sync_status: contactData.sync_status || "pending",
+        account_id: contactData.account_id || null,
+        notes: contactData.notes || ""
     };
     
     contacts.push(newContact);
@@ -406,6 +410,18 @@ function updateContact(id, updatedData) {
             }
             if (updatedData.avatar !== undefined) {
                 contacts[i].avatar = updatedData.avatar;
+            }
+            if (updatedData.odoo_record_id !== undefined) {
+                contacts[i].odoo_record_id = updatedData.odoo_record_id;
+            }
+            if (updatedData.sync_status !== undefined) {
+                contacts[i].sync_status = updatedData.sync_status;
+            }
+            if (updatedData.account_id !== undefined) {
+                contacts[i].account_id = updatedData.account_id;
+            }
+            if (updatedData.notes !== undefined) {
+                contacts[i].notes = updatedData.notes;
             }
             return contacts[i];
         }

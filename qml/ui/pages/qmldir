@@ -9,4 +9,5 @@ SettingsPage 1.0 SettingsPage.qml
 GroupsPage 1.0 GroupsPage.qml
 NewGroupPage 1.0 NewGroupPage.qml
 GroupInfoPage 1.0 GroupInfoPage.qml
+OdooSyncPage 1.0 OdooSyncPage.qml
 

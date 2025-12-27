@@ -1,4 +1,5 @@
 module logic
 ContactsService 1.0 ContactsService.qml
 GroupsService 1.0 GroupsService.qml
+OdooSyncService 1.0 OdooSyncService.qml
 

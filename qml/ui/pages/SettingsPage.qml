@@ -37,6 +37,18 @@ Page {
         return null
     }
     
+    // Function to find PageStack for navigation
+    function findPageStack(item) {
+        var parent = item.parent
+        while (parent) {
+            if (parent.addPageToNextColumn) {
+                return parent
+            }
+            parent = parent.parent
+        }
+        return null
+    }
+    
     // Load current theme on page load
     Component.onCompleted: {
         var mainView = findMainView(settingsPage)
@@ -183,27 +195,37 @@ Page {
                 color: Qt.rgba(0, 0, 0, 0.1)
             }
 
-            // Account Selection
-            Column {
+            // Odoo Sync Section
+            Label {
+                text: i18n.tr("Odoo Sync")
+                fontSize: "medium"
+                font.bold: true
                 width: parent.width
-                spacing: units.gu(1)
+            }
 
-                Label {
-                    text: i18n.tr("Select an Account:")
-                    fontSize: "medium"
-                    font.bold: true
-                    width: parent.width
-                }
+            Rectangle {
+                width: parent.width
+                height: 1
+                color: Qt.rgba(0, 0, 0, 0.1)
+            }
 
-                OptionSelector {
-                    id: accountSelector
-                    model: settingsPage.accountOptions
-                    width: parent.width
-                    onSelectedIndexChanged: {
-                        console.log("Selected account index:", selectedIndex, "text:", accountOptions[selectedIndex])
-                        // Handle account selection change here
+            Button {
+                text: i18n.tr("Manage Odoo Sync")
+                width: parent.width
+                onClicked: {
+                    var pageStack = findPageStack(settingsPage)
+                    if (pageStack) {
+                        pageStack.addPageToNextColumn(settingsPage, Qt.resolvedUrl("OdooSyncPage.qml"))
                     }
                 }
+            }
+
+            Label {
+                text: i18n.tr("Sync your contacts with Odoo server")
+                fontSize: "small"
+                color: "#666"
+                width: parent.width
+                wrapMode: Text.Wrap
             }
         }
     }
