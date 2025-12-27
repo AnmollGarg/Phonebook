@@ -2,6 +2,7 @@
 import QtQuick 2.7
 import Lomiri.Components 1.3
 import QtQuick.Layouts 1.3
+import Lomiri.Components.Popups 1.3
 
 import "../../logic" 1.0
 
@@ -15,6 +16,7 @@ Page {
     property string editEmail: ""
     property string editCountryCode: ""
     property bool editIsFavorite: false
+    property string editContactType: "individual"
 
     header: PageHeader {
         title: i18n.tr("New Contact")
@@ -34,6 +36,25 @@ Page {
     ContactsService {
         id: contactsService
     }
+    
+    OdooSyncService {
+        id: odooSyncService
+    }
+    
+    // Dialog for sync status
+    Component {
+        id: syncStatusDialog
+        Dialog {
+            id: dialog
+            title: i18n.tr("Sync Status")
+            text: ""
+            
+            Button {
+                text: i18n.tr("OK")
+                onClicked: PopupUtils.close(dialog)
+            }
+        }
+    }
 
     function saveContact() {
         var fullName = (editFirstName + " " + editLastName).trim();
@@ -48,17 +69,96 @@ Page {
             phone: editPhone,
             email: editEmail,
             countryCode: editCountryCode,
-            isFavorite: editIsFavorite
+            isFavorite: editIsFavorite,
+            contactType: editContactType
         };
         
+        // Create contact locally first
         var newContact = contactsService.createContact(contactData);
         if (newContact) {
-            // Navigate back
-            var pageStack = findPageStack(newContactPage);
-            if (pageStack) {
-                pageStack.removePages(newContactPage);
-            }
+            // Try to sync to Odoo
+            syncToOdoo(newContact)
         }
+    }
+    
+    function syncToOdoo(contactToSync) {
+        // Store the contact ID and service reference for later use
+        var contactIdToUpdate = contactToSync.id
+        var serviceRef = contactsService
+        
+        if (!serviceRef) {
+            console.log("Error: contactsService is not available")
+            return
+        }
+        
+        odooSyncService.syncNewContactToOdoo(contactToSync,
+            // onSuccess
+            function(odooRecordId, accountId) {
+                console.log("Contact created in Odoo with ID:", odooRecordId)
+                try {
+                    if (!serviceRef) {
+                        console.log("Error: contactsService is null in callback")
+                        return
+                    }
+                    
+                    // Update contact with odoo_record_id and account_id
+                    var updateData = {
+                        odoo_record_id: odooRecordId,
+                        account_id: accountId,
+                        sync_status: "synced"
+                    }
+                    var updated = serviceRef.updateContact(contactIdToUpdate, updateData)
+                    if (updated) {
+                        console.log("Contact updated with Odoo ID:", odooRecordId)
+                    } else {
+                        console.log("Warning: Failed to update contact with Odoo ID")
+                    }
+                } catch (e) {
+                    console.log("Error updating contact:", e.toString())
+                }
+                
+                // Navigate back
+                Qt.callLater(function() {
+                    var pageStack = findPageStack(newContactPage);
+                    if (pageStack) {
+                        pageStack.removePages(newContactPage);
+                    }
+                })
+            },
+            // onError
+            function(errorType, errorMessage) {
+                console.log("Error creating contact in Odoo:", errorType, errorMessage)
+                try {
+                    if (serviceRef) {
+                        // Mark as pending sync
+                        var updateData = {
+                            sync_status: "pending"
+                        }
+                        serviceRef.updateContact(contactIdToUpdate, updateData)
+                    }
+                } catch (e) {
+                    console.log("Error updating contact sync status:", e.toString())
+                }
+                
+                // Show error but still navigate back (contact was created locally)
+                try {
+                    var dialog = PopupUtils.open(syncStatusDialog, null)
+                    if (dialog) {
+                        dialog.text = i18n.tr("Contact created locally but failed to sync to Odoo: ") + errorMessage
+                    }
+                } catch (e) {
+                    console.log("Error showing dialog:", e.toString())
+                }
+                
+                // Navigate back after a delay
+                Qt.callLater(function() {
+                    var pageStack = findPageStack(newContactPage);
+                    if (pageStack) {
+                        pageStack.removePages(newContactPage);
+                    }
+                })
+            }
+        )
     }
 
     function findPageStack(item) {

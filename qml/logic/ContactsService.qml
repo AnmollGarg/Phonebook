@@ -1,9 +1,18 @@
 // Contacts Service - QML component for accessing contact data
 import QtQuick 2.7
+import QtQuick.LocalStorage 2.0
 import "ContactsData.js" as ContactsData
 
 QtObject {
     id: contactsService
+    
+    // Odoo Sync Service for syncing deletions
+    property var odooSyncService: null
+    
+    // Initialize contacts from Odoo sync on service creation
+    Component.onCompleted: {
+        ContactsData.loadContactsFromOdooSync()
+    }
 
     // Get all contacts with resolved avatar paths
     function getAllContacts() {
@@ -87,6 +96,24 @@ QtObject {
 
     // Delete a contact
     function deleteContact(id) {
+        // Get contact before deleting to check if it's synced with Odoo
+        var contact = ContactsData.getContactById(id)
+        if (contact && contact.odoo_record_id && contact.account_id && odooSyncService) {
+            // Contact is synced with Odoo, delete from Odoo first
+            // Note: We'll delete locally regardless of Odoo deletion result
+            // to prevent blocking the user
+            odooSyncService.syncContactDeleteToOdoo(contact,
+                function(success) {
+                    console.log("Contact deleted from Odoo successfully")
+                },
+                function(errorType, errorMessage) {
+                    console.log("Error deleting contact from Odoo:", errorType, errorMessage)
+                    // Continue with local deletion even if Odoo deletion fails
+                }
+            )
+        }
+        
+        // Delete locally (regardless of Odoo sync status)
         return ContactsData.deleteContact(id);
     }
 }

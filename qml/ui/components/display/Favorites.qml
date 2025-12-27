@@ -16,7 +16,25 @@ Rectangle {
         id: contactsService
     }
 
-    readonly property var favoritesModel: contactsService.getFavorites()
+    property var favoritesModel: []
+    
+    // Timer to refresh favorites after component loads
+    Timer {
+        id: refreshTimer
+        interval: 100
+        running: true
+        onTriggered: {
+            favoritesContainer.refreshFavorites()
+        }
+    }
+    
+    Component.onCompleted: {
+        refreshFavorites()
+    }
+    
+    function refreshFavorites() {
+        favoritesModel = contactsService.getFavorites()
+    }
 
     Column {
         anchors.fill: parent

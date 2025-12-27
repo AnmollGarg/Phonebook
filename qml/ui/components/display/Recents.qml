@@ -15,9 +15,27 @@ Rectangle {
     ContactsService {
         id: contactsService
     }
+    
+    OdooSyncService {
+        id: odooSyncService
+        Component.onCompleted: {
+            // Link OdooSyncService to ContactsService for deletion sync
+            contactsService.odooSyncService = odooSyncService
+        }
+    }
 
-    property var allContactsModel: contactsService.getAllContactsSorted()
+    property var allContactsModel: []
     property int contactToDelete: -1
+    
+    // Timer to refresh contacts after component loads
+    Timer {
+        id: refreshTimer
+        interval: 100
+        running: true
+        onTriggered: {
+            recentsContainer.refreshContacts()
+        }
+    }
     
     ConfirmationDialog {
         id: deleteConfirmationDialog
@@ -40,6 +58,10 @@ Rectangle {
         onCancelled: {
             contactToDelete = -1
         }
+    }
+    
+    Component.onCompleted: {
+        refreshContacts()
     }
     
     function refreshContacts() {

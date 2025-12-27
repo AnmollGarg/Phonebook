@@ -224,7 +224,7 @@ QtObject {
                                     "search_read",
                                     [[]],
                                     {
-                                        fields: ["name", "id", "phone", "mobile", "email"],
+                                        fields: ["name", "id", "phone", "mobile", "email", "is_company"],
                                         limit: 100
                                     }
                                 ]
@@ -265,11 +265,15 @@ QtObject {
         var processed = []
         for (var i = 0; i < odooContacts.length; i++) {
             var contact = odooContacts[i]
+            // Map Odoo's is_company (boolean) to contactType ("individual" or "company")
+            var contactType = contact.is_company ? "company" : "individual"
             processed.push({
                 id: contact.id,
                 name: contact.name || "",
                 phone: contact.phone || contact.mobile || "",
-                email: contact.email || ""
+                email: contact.email || "",
+                is_company: contact.is_company || false,
+                contactType: contactType
             })
         }
         return processed
@@ -303,12 +307,17 @@ QtObject {
             }
             
             if (!existing) {
+                // Determine contactType - default to individual for now
+                // This will be properly set when syncing from Odoo
+                var contactType = "individual"
+                
                 var contactData = {
                     firstName: firstName,
                     lastName: lastName,
                     fullName: name,
                     phone: row.phone || "",
                     email: row.email || "",
+                    contactType: contactType,
                     odoo_record_id: row.odoo_record_id,
                     sync_status: "synced",
                     account_id: accountId
@@ -319,6 +328,353 @@ QtObject {
         }
         
         return importedCount
+    }
+    
+    // Update contact in Odoo
+    function updateContactInOdoo(account, contact, onSuccess, onError) {
+        if (!contact.odoo_record_id) {
+            if (onError) onError("no_odoo_id", "Contact is not synced with Odoo")
+            return
+        }
+        
+        var serverUrl = normalizeUrl(account.server_url)
+        var url = serverUrl.replace(/\/$/, "") + "/jsonrpc"
+        var database = account.database
+        var username = account.username
+        var auth = account.api_key || account.password
+        
+        // Step 1: Authenticate
+        var authXhr = new XMLHttpRequest()
+        authXhr.onreadystatechange = function() {
+            if (authXhr.readyState === XMLHttpRequest.DONE && authXhr.status === 200) {
+                try {
+                    var authResponse = JSON.parse(authXhr.responseText)
+                    if (authResponse.result && typeof authResponse.result === 'number' && authResponse.result > 0) {
+                        var uid = authResponse.result
+                        
+                        // Step 2: Update contact in Odoo
+                        var updateXhr = new XMLHttpRequest()
+                        updateXhr.onreadystatechange = function() {
+                            if (updateXhr.readyState === XMLHttpRequest.DONE && updateXhr.status === 200) {
+                                try {
+                                    var updateResponse = JSON.parse(updateXhr.responseText)
+                                    if (updateResponse.result && !updateResponse.error) {
+                                        // Update successful
+                                        if (onSuccess) onSuccess(updateResponse.result)
+                                    } else {
+                                        if (onError) onError("update_failed", updateResponse.error ? JSON.stringify(updateResponse.error) : "Unknown error")
+                                    }
+                                } catch (e) {
+                                    if (onError) onError("parse_error", "Error parsing response: " + e.toString())
+                                }
+                            }
+                        }
+                        
+                        updateXhr.onerror = function() {
+                            if (onError) onError("network_error", "Network error while updating contact")
+                        }
+                        
+                        // Prepare update data for Odoo
+                        var updateData = {}
+                        if (contact.fullName) updateData.name = contact.fullName
+                        if (contact.phone) updateData.phone = contact.phone
+                        if (contact.email) updateData.email = contact.email
+                        
+                        // Map contactType to Odoo's is_company field
+                        // contactType: "individual" -> is_company: false
+                        // contactType: "company" -> is_company: true
+                        if (contact.contactType !== undefined) {
+                            updateData.is_company = (contact.contactType === "company")
+                        }
+                        
+                        updateXhr.open("POST", url)
+                        updateXhr.setRequestHeader("Content-Type", "application/json")
+                        var updateRequest = {
+                            jsonrpc: "2.0",
+                            method: "call",
+                            params: {
+                                service: "object",
+                                method: "execute_kw",
+                                args: [
+                                    database,
+                                    uid,
+                                    auth,
+                                    "res.partner",
+                                    "write",
+                                    [[contact.odoo_record_id], updateData]
+                                ]
+                            },
+                            id: 2
+                        }
+                        updateXhr.send(JSON.stringify(updateRequest))
+                    } else {
+                        if (onError) onError("auth_error", "Authentication failed")
+                    }
+                } catch (e) {
+                    if (onError) onError("auth_error", "Authentication error: " + e.toString())
+                }
+            }
+        }
+        
+        authXhr.onerror = function() {
+            if (onError) onError("network_error", "Network error during authentication")
+        }
+        
+        authXhr.open("POST", url)
+        authXhr.setRequestHeader("Content-Type", "application/json")
+        var authData = {
+            jsonrpc: "2.0",
+            method: "call",
+            params: {
+                service: "common",
+                method: "authenticate",
+                args: [database, username, auth, {}]
+            },
+            id: 1
+        }
+        authXhr.send(JSON.stringify(authData))
+    }
+    
+    // Sync contact update to Odoo (helper function that finds account)
+    function syncContactUpdateToOdoo(contact, onSuccess, onError) {
+        if (!contact.odoo_record_id || !contact.account_id) {
+            if (onError) onError("no_sync_info", "Contact is not synced with Odoo")
+            return
+        }
+        
+        var account = getAccountById(contact.account_id)
+        if (!account) {
+            if (onError) onError("account_not_found", "Odoo account not found")
+            return
+        }
+        
+        updateContactInOdoo(account, contact, onSuccess, onError)
+    }
+    
+    // Create contact in Odoo
+    function createContactInOdoo(account, contact, onSuccess, onError) {
+        var serverUrl = normalizeUrl(account.server_url)
+        var url = serverUrl.replace(/\/$/, "") + "/jsonrpc"
+        var database = account.database
+        var username = account.username
+        var auth = account.api_key || account.password
+        
+        // Step 1: Authenticate
+        var authXhr = new XMLHttpRequest()
+        authXhr.onreadystatechange = function() {
+            if (authXhr.readyState === XMLHttpRequest.DONE && authXhr.status === 200) {
+                try {
+                    var authResponse = JSON.parse(authXhr.responseText)
+                    if (authResponse.result && typeof authResponse.result === 'number' && authResponse.result > 0) {
+                        var uid = authResponse.result
+                        
+                        // Step 2: Create contact in Odoo
+                        var createXhr = new XMLHttpRequest()
+                        createXhr.onreadystatechange = function() {
+                            if (createXhr.readyState === XMLHttpRequest.DONE && createXhr.status === 200) {
+                                try {
+                                    var createResponse = JSON.parse(createXhr.responseText)
+                                    if (createResponse.result && !createResponse.error) {
+                                        // Create successful - result is the new record ID
+                                        var newOdooId = createResponse.result
+                                        if (onSuccess) onSuccess(newOdooId)
+                                    } else {
+                                        if (onError) onError("create_failed", createResponse.error ? JSON.stringify(createResponse.error) : "Unknown error")
+                                    }
+                                } catch (e) {
+                                    if (onError) onError("parse_error", "Error parsing response: " + e.toString())
+                                }
+                            }
+                        }
+                        
+                        createXhr.onerror = function() {
+                            if (onError) onError("network_error", "Network error while creating contact")
+                        }
+                        
+                        // Prepare create data for Odoo
+                        var createData = {}
+                        if (contact.fullName) createData.name = contact.fullName
+                        if (contact.phone) createData.phone = contact.phone
+                        if (contact.email) createData.email = contact.email
+                        
+                        // Map contactType to Odoo's is_company field
+                        if (contact.contactType !== undefined) {
+                            createData.is_company = (contact.contactType === "company")
+                        }
+                        
+                        createXhr.open("POST", url)
+                        createXhr.setRequestHeader("Content-Type", "application/json")
+                        var createRequest = {
+                            jsonrpc: "2.0",
+                            method: "call",
+                            params: {
+                                service: "object",
+                                method: "execute_kw",
+                                args: [
+                                    database,
+                                    uid,
+                                    auth,
+                                    "res.partner",
+                                    "create",
+                                    [createData]
+                                ]
+                            },
+                            id: 2
+                        }
+                        createXhr.send(JSON.stringify(createRequest))
+                    } else {
+                        if (onError) onError("auth_error", "Authentication failed")
+                    }
+                } catch (e) {
+                    if (onError) onError("auth_error", "Authentication error: " + e.toString())
+                }
+            }
+        }
+        
+        authXhr.onerror = function() {
+            if (onError) onError("network_error", "Network error during authentication")
+        }
+        
+        authXhr.open("POST", url)
+        authXhr.setRequestHeader("Content-Type", "application/json")
+        var authData = {
+            jsonrpc: "2.0",
+            method: "call",
+            params: {
+                service: "common",
+                method: "authenticate",
+                args: [database, username, auth, {}]
+            },
+            id: 1
+        }
+        authXhr.send(JSON.stringify(authData))
+    }
+    
+    // Create contact in Odoo (helper function that uses first available account)
+    function syncNewContactToOdoo(contact, onSuccess, onError) {
+        // Get the first available Odoo account
+        var accounts = getAllAccounts()
+        if (accounts.length === 0) {
+            if (onError) onError("no_account", "No Odoo account configured")
+            return
+        }
+        
+        // Use the first/most recent account
+        var account = accounts[0]
+        
+        createContactInOdoo(account, contact,
+            // onSuccess - update contact with odoo_record_id
+            function(odooRecordId) {
+                // Update the contact with odoo_record_id and account_id
+                if (onSuccess) onSuccess(odooRecordId, account.id)
+            },
+            // onError
+            onError
+        )
+    }
+    
+    // Delete contact from Odoo
+    function deleteContactFromOdoo(account, odooRecordId, onSuccess, onError) {
+        var serverUrl = normalizeUrl(account.server_url)
+        var url = serverUrl.replace(/\/$/, "") + "/jsonrpc"
+        var database = account.database
+        var username = account.username
+        var auth = account.api_key || account.password
+        
+        // Step 1: Authenticate
+        var authXhr = new XMLHttpRequest()
+        authXhr.onreadystatechange = function() {
+            if (authXhr.readyState === XMLHttpRequest.DONE && authXhr.status === 200) {
+                try {
+                    var authResponse = JSON.parse(authXhr.responseText)
+                    if (authResponse.result && typeof authResponse.result === 'number' && authResponse.result > 0) {
+                        var uid = authResponse.result
+                        
+                        // Step 2: Delete contact in Odoo
+                        var deleteXhr = new XMLHttpRequest()
+                        deleteXhr.onreadystatechange = function() {
+                            if (deleteXhr.readyState === XMLHttpRequest.DONE && deleteXhr.status === 200) {
+                                try {
+                                    var deleteResponse = JSON.parse(deleteXhr.responseText)
+                                    if (deleteResponse.result && !deleteResponse.error) {
+                                        // Delete successful
+                                        if (onSuccess) onSuccess(true)
+                                    } else {
+                                        if (onError) onError("delete_failed", deleteResponse.error ? JSON.stringify(deleteResponse.error) : "Unknown error")
+                                    }
+                                } catch (e) {
+                                    if (onError) onError("parse_error", "Error parsing response: " + e.toString())
+                                }
+                            }
+                        }
+                        
+                        deleteXhr.onerror = function() {
+                            if (onError) onError("network_error", "Network error while deleting contact")
+                        }
+                        
+                        deleteXhr.open("POST", url)
+                        deleteXhr.setRequestHeader("Content-Type", "application/json")
+                        var deleteRequest = {
+                            jsonrpc: "2.0",
+                            method: "call",
+                            params: {
+                                service: "object",
+                                method: "execute_kw",
+                                args: [
+                                    database,
+                                    uid,
+                                    auth,
+                                    "res.partner",
+                                    "unlink",
+                                    [[odooRecordId]]
+                                ]
+                            },
+                            id: 2
+                        }
+                        deleteXhr.send(JSON.stringify(deleteRequest))
+                    } else {
+                        if (onError) onError("auth_error", "Authentication failed")
+                    }
+                } catch (e) {
+                    if (onError) onError("auth_error", "Authentication error: " + e.toString())
+                }
+            }
+        }
+        
+        authXhr.onerror = function() {
+            if (onError) onError("network_error", "Network error during authentication")
+        }
+        
+        authXhr.open("POST", url)
+        authXhr.setRequestHeader("Content-Type", "application/json")
+        var authData = {
+            jsonrpc: "2.0",
+            method: "call",
+            params: {
+                service: "common",
+                method: "authenticate",
+                args: [database, username, auth, {}]
+            },
+            id: 1
+        }
+        authXhr.send(JSON.stringify(authData))
+    }
+    
+    // Delete contact from Odoo (helper function that finds account)
+    function syncContactDeleteToOdoo(contact, onSuccess, onError) {
+        if (!contact.odoo_record_id || !contact.account_id) {
+            // Contact not synced with Odoo, just succeed
+            if (onSuccess) onSuccess(true)
+            return
+        }
+        
+        var account = getAccountById(contact.account_id)
+        if (!account) {
+            if (onError) onError("account_not_found", "Odoo account not found")
+            return
+        }
+        
+        deleteContactFromOdoo(account, contact.odoo_record_id, onSuccess, onError)
     }
 }
 

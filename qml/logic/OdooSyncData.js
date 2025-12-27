@@ -127,6 +127,7 @@ function saveSyncedContacts(accountId, contacts) {
                 var name = contact.name || ""
                 var phone = contact.phone || contact.mobile || ""
                 var email = contact.email || ""
+                var isCompany = contact.is_company ? 1 : 0
                 
                 tx.executeSql(
                     'INSERT INTO cached_odoo_contacts (account_id, odoo_record_id, name, phone, email, last_updated) VALUES (?, ?, ?, ?, ?, ?)',

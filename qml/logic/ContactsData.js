@@ -1,161 +1,6 @@
 // Contacts Data Service - Centralized contact information
-// Demo contact database
-var contacts = [
-    {
-        id: 1,
-        firstName: "John",
-        lastName: "Doe",
-        fullName: "John Doe",
-        phone: "+1 234-567-8900",
-        countryCode: "+1",
-        email: "john.doe@example.com",
-        avatar: "../../assets/avatar.png",
-        isFavorite: true
-    },
-    {
-        id: 2,
-        firstName: "Jane",
-        lastName: "Smith",
-        fullName: "Jane Smith",
-        phone: "+44 20 7946 0958",
-        countryCode: "+44",
-        email: "jane.smith@example.com",
-        avatar: "../../assets/avatar.png",
-        isFavorite: true
-    },
-    {
-        id: 3,
-        firstName: "Bob",
-        lastName: "Johnson",
-        fullName: "Bob Johnson",
-        phone: "+1 555-123-4567",
-        countryCode: "+1",
-        email: "bob.johnson@example.com",
-        avatar: "../../assets/avatar.png",
-        isFavorite: true
-    },
-    {
-        id: 4,
-        firstName: "Alice",
-        lastName: "Brown",
-        fullName: "Alice Brown",
-        phone: "+33 1 42 86 83 26",
-        countryCode: "+33",
-        email: "alice.brown@example.com",
-        avatar: "../../assets/avatar.png",
-        isFavorite: true
-    },
-    {
-        id: 5,
-        firstName: "Charlie",
-        lastName: "Wilson",
-        fullName: "Charlie Wilson",
-        phone: "+49 30 2273 0",
-        countryCode: "+49",
-        email: "charlie.wilson@example.com",
-        avatar: "../../assets/avatar.png",
-        isFavorite: true
-    },
-    {
-        id: 6,
-        firstName: "David",
-        lastName: "Lee",
-        fullName: "David Lee",
-        phone: "+81 3 1234 5678",
-        countryCode: "+81",
-        email: "david.lee@example.com",
-        avatar: "../../assets/avatar.png",
-        isFavorite: false
-    },
-    {
-        id: 7,
-        firstName: "Emma",
-        lastName: "Johnson",
-        fullName: "Emma Johnson",
-        phone: "+44 20 7946 0958",
-        countryCode: "+44",
-        email: "emma.johnson@example.com",
-        avatar: "../../assets/avatar.png",
-        isFavorite: false
-    },
-    {
-        id: 8,
-        firstName: "Frank",
-        lastName: "Brown",
-        fullName: "Frank Brown",
-        phone: "+33 1 42 86 83 26",
-        countryCode: "+33",
-        email: "frank.brown@example.com",
-        avatar: "../../assets/avatar.png",
-        isFavorite: false
-    },
-    {
-        id: 9,
-        firstName: "George",
-        lastName: "Wilson",
-        fullName: "George Wilson",
-        phone: "+49 30 2273 0",
-        countryCode: "+49",
-        email: "george.wilson@example.com",
-        avatar: "../../assets/avatar.png",
-        isFavorite: false
-    },
-    {
-        id: 10,
-        firstName: "Henry",
-        lastName: "Lee",
-        fullName: "Henry Lee",
-        phone: "+81 3 1234 5678",
-        countryCode: "+81",
-        email: "henry.lee@example.com",
-        avatar: "../../assets/avatar.png",
-        isFavorite: false
-    },
-    {
-        id: 11,
-        firstName: "Isaac",
-        lastName: "Brown",
-        fullName: "Isaac Brown",
-        phone: "+33 1 42 86 83 26",
-        countryCode: "+33",
-        email: "isaac.brown@example.com",
-        avatar: "../../assets/avatar.png",
-        isFavorite: false
-    },
-    {
-        id: 12,
-        firstName: "Jacob",
-        lastName: "Wilson",
-        fullName: "Jacob Wilson",
-        phone: "+49 30 2273 0",
-        countryCode: "+49",
-        email: "jacob.wilson@example.com",
-        avatar: "../../assets/avatar.png",
-        isFavorite: false
-    },
-    {
-        id: 13,
-        firstName: "James",
-        lastName: "Lee",
-        fullName: "James Lee",
-        phone: "+81 3 1234 5678",
-        countryCode: "+81",
-        email: "james.lee@example.com",
-        avatar: "../../assets/avatar.png",
-        isFavorite: false
-    },
-    {
-        id: 14,
-        firstName: "John",
-        lastName: "Doe",
-        fullName: "John Doe",
-        phone: "+1 234-567-8900",
-        countryCode: "+1",
-        email: "john.doe@example.com",
-        avatar: "../../assets/avatar.png",
-        isFavorite: false
-    }
-];
+// Contacts are loaded from Odoo sync or created locally
+var contacts = [];
 
 // Recent calls data
 //use contact id between the 1 to 14 for the recent calls
@@ -246,6 +91,72 @@ var recentCalls = [
     { contactId: 14, time: "1:00 PM", type: "outgoing" },
     { contactId: 1, time: "12:45 PM", type: "incoming" },
 ];
+
+// Load contacts from Odoo sync cache
+function loadContactsFromOdooSync() {
+    try {
+        var db = LocalStorage.openDatabaseSync("phonebookDatabase", "1.0", "Phonebook Database", 1000000)
+        var nextId = 1
+        
+        db.transaction(function(tx) {
+            // Get all synced contacts from all accounts
+            var result = tx.executeSql('SELECT * FROM cached_odoo_contacts ORDER BY name')
+            for (var i = 0; i < result.rows.length; i++) {
+                var row = result.rows.item(i)
+                var name = row.name || ""
+                var nameParts = name.split(" ")
+                var firstName = nameParts[0] || ""
+                var lastName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : ""
+                
+                // Check if contact already exists (by odoo_record_id)
+                var existing = false
+                for (var j = 0; j < contacts.length; j++) {
+                    if (contacts[j].odoo_record_id && contacts[j].odoo_record_id === row.odoo_record_id) {
+                        existing = true
+                        break
+                    }
+                }
+                
+                if (!existing) {
+                    // Find next available ID
+                    var maxId = 0
+                    for (var k = 0; k < contacts.length; k++) {
+                        if (contacts[k].id > maxId) {
+                            maxId = contacts[k].id
+                        }
+                    }
+                    nextId = maxId + 1
+                    
+                    // Determine contactType from Odoo data if available
+                    // For now, default to "individual" - will be updated when syncing
+                    var contactType = "individual"
+                    
+                    var contact = {
+                        id: nextId,
+                        firstName: firstName,
+                        lastName: lastName,
+                        fullName: name,
+                        phone: row.phone || "",
+                        countryCode: "",
+                        email: row.email || "",
+                        avatar: "../../assets/avatar.png",
+                        isFavorite: false,
+                        contactType: contactType,
+                        odoo_record_id: row.odoo_record_id,
+                        sync_status: "synced",
+                        account_id: row.account_id,
+                        notes: ""
+                    }
+                    contacts.push(contact)
+                }
+            }
+        })
+        return contacts.length
+    } catch (e) {
+        console.log("Error loading contacts from Odoo sync:", e)
+        return 0
+    }
+}
 
 // Get all contacts
 function getAllContacts() {
@@ -367,6 +278,7 @@ function createContact(contactData) {
         email: contactData.email || "",
         avatar: contactData.avatar || "../../assets/avatar.png",
         isFavorite: contactData.isFavorite || false,
+        contactType: contactData.contactType || "individual",
         odoo_record_id: contactData.odoo_record_id || null,
         sync_status: contactData.sync_status || "pending",
         account_id: contactData.account_id || null,
@@ -422,6 +334,9 @@ function updateContact(id, updatedData) {
             }
             if (updatedData.notes !== undefined) {
                 contacts[i].notes = updatedData.notes;
+            }
+            if (updatedData.contactType !== undefined) {
+                contacts[i].contactType = updatedData.contactType;
             }
             return contacts[i];
         }

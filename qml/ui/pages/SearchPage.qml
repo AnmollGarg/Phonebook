@@ -20,6 +20,14 @@ Page {
         id: contactsService
     }
     
+    OdooSyncService {
+        id: odooSyncService
+        Component.onCompleted: {
+            // Link OdooSyncService to ContactsService for deletion sync
+            contactsService.odooSyncService = odooSyncService
+        }
+    }
+    
     property int contactToDelete: -1
     
     ConfirmationDialog {

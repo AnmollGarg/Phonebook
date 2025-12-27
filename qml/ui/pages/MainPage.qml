@@ -19,9 +19,33 @@ Page {
 
     signal avatarClicked()
     signal settingsClicked()
+    
+    // Refresh contacts when page becomes visible
+    onVisibleChanged: {
+        if (visible) {
+            refreshContacts()
+        }
+    }
 
     ContactsService {
         id: contactsService
+    }
+    
+    OdooSyncService {
+        id: odooSyncService
+        Component.onCompleted: {
+            // Link OdooSyncService to ContactsService for deletion sync
+            contactsService.odooSyncService = odooSyncService
+        }
+    }
+    
+    function refreshContacts() {
+        allContacts = contactsService.getAllContactsSorted()
+        filteredContacts = allContacts
+        // Also refresh Recents and Favorites components
+        if (recentsComponent) {
+            recentsComponent.refreshContacts()
+        }
     }
     
     property int contactToDelete: -1
@@ -51,8 +75,11 @@ Page {
     }
 
     Component.onCompleted: {
-        allContacts = contactsService.getAllContactsSorted()
-        filteredContacts = allContacts
+        // Load contacts after a short delay to ensure Odoo sync completes
+        Qt.callLater(function() {
+            allContacts = contactsService.getAllContactsSorted()
+            filteredContacts = allContacts
+        })
     }
 
     function toggleSearch() {

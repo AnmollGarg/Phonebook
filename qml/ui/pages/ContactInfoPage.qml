@@ -7,6 +7,7 @@ import QtQuick.Controls 2.7 as Controls
 import "../../logic" 1.0
 import "../components/display" 1.0
 import "../components/widget" 1.0
+import Lomiri.Components.Popups 1.3
 
 Page {
     id: contactInfoPage
@@ -46,6 +47,25 @@ Page {
 
     ContactsService {
         id: contactsService
+    }
+    
+    OdooSyncService {
+        id: odooSyncService
+    }
+    
+    // Dialog for sync status
+    Component {
+        id: syncStatusDialog
+        Dialog {
+            id: dialog
+            title: i18n.tr("Sync Status")
+            text: ""
+            
+            Button {
+                text: i18n.tr("OK")
+                onClicked: PopupUtils.close(dialog)
+            }
+        }
     }
 
     Component.onCompleted: {
@@ -97,11 +117,46 @@ Page {
             notes: editNotes
         };
         
+        // Update contact locally first
         var updated = contactsService.updateContact(contactId, updatedData);
         if (updated) {
             contact = updated;
+            // Reload contact data to ensure UI reflects changes
+            loadContactData();
             isEditMode = false;
+            
+            // If contact is synced with Odoo, sync changes back
+            if (contact.odoo_record_id && contact.account_id) {
+                syncToOdoo(contact)
+            }
         }
+    }
+    
+    function syncToOdoo(contactToSync) {
+        odooSyncService.syncContactUpdateToOdoo(contactToSync,
+            // onSuccess
+            function(result) {
+                console.log("Contact synced to Odoo successfully")
+                // Update sync status
+                var syncData = {
+                    sync_status: "synced"
+                }
+                contactsService.updateContact(contactId, syncData)
+            },
+            // onError
+            function(errorType, errorMessage) {
+                console.log("Error syncing to Odoo:", errorType, errorMessage)
+                // Mark as sync pending
+                var syncData = {
+                    sync_status: "pending"
+                }
+                contactsService.updateContact(contactId, syncData)
+                
+                // Show error dialog
+                var dialog = PopupUtils.open(syncStatusDialog, null)
+                dialog.text = i18n.tr("Failed to sync changes to Odoo: ") + errorMessage
+            }
+        )
     }
 
     Item {
@@ -219,6 +274,7 @@ Page {
                             onCheckedChanged: {
                                 if (checked) {
                                     editContactType = "individual"
+                                    console.log("Contact type changed to: individual")
                                 }
                             }
                         }
@@ -228,7 +284,9 @@ Page {
                             MouseArea {
                                 anchors.fill: parent
                                 onClicked: {
+                                    editContactType = "individual"
                                     individualRadio.checked = true
+                                    console.log("Contact type clicked: individual")
                                 }
                             }
                         }
@@ -242,6 +300,7 @@ Page {
                             onCheckedChanged: {
                                 if (checked) {
                                     editContactType = "company"
+                                    console.log("Contact type changed to: company")
                                 }
                             }
                         }
@@ -251,7 +310,9 @@ Page {
                             MouseArea {
                                 anchors.fill: parent
                                 onClicked: {
+                                    editContactType = "company"
                                     companyRadio.checked = true
+                                    console.log("Contact type clicked: company")
                                 }
                             }
                         }

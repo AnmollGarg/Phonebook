@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phonebook.anmolgarg\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-27 06:11+0000\n"
+"POT-Creation-Date: 2025-12-27 06:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,9 +27,9 @@ msgid "Are you sure?"
 msgstr ""
 
 #: ../qml/ui/components/dialog/ConfirmationDialog.qml:12
-#: ../qml/ui/components/display/Recents.qml:27 ../qml/ui/pages/MainPage.qml:34
+#: ../qml/ui/components/display/Recents.qml:45 ../qml/ui/pages/MainPage.qml:58
 #: ../qml/ui/pages/OdooSyncPage.qml:786 ../qml/ui/pages/OdooSyncPage.qml:820
-#: ../qml/ui/pages/SearchPage.qml:30
+#: ../qml/ui/pages/SearchPage.qml:38
 msgid "Cancel"
 msgstr ""
 
@@ -42,32 +42,32 @@ msgid "Message"
 msgstr ""
 
 #: ../qml/ui/components/display/ContactListItemDelegate.qml:38
-#: ../qml/ui/components/display/Recents.qml:26
-#: ../qml/ui/pages/GroupsPage.qml:149 ../qml/ui/pages/MainPage.qml:33
+#: ../qml/ui/components/display/Recents.qml:44
+#: ../qml/ui/pages/GroupsPage.qml:149 ../qml/ui/pages/MainPage.qml:57
 #: ../qml/ui/pages/OdooSyncPage.qml:265 ../qml/ui/pages/OdooSyncPage.qml:810
-#: ../qml/ui/pages/SearchPage.qml:29
+#: ../qml/ui/pages/SearchPage.qml:37
 msgid "Delete"
 msgstr ""
 
-#: ../qml/ui/components/display/Favorites.qml:25
+#: ../qml/ui/components/display/Favorites.qml:43
 msgid "Favorites"
 msgstr ""
 
-#: ../qml/ui/components/display/Recents.qml:24 ../qml/ui/pages/MainPage.qml:31
-#: ../qml/ui/pages/SearchPage.qml:27
+#: ../qml/ui/components/display/Recents.qml:42 ../qml/ui/pages/MainPage.qml:55
+#: ../qml/ui/pages/SearchPage.qml:35
 msgid "Delete Contact"
 msgstr ""
 
-#: ../qml/ui/components/display/Recents.qml:25 ../qml/ui/pages/MainPage.qml:32
-#: ../qml/ui/pages/SearchPage.qml:28
+#: ../qml/ui/components/display/Recents.qml:43 ../qml/ui/pages/MainPage.qml:56
+#: ../qml/ui/pages/SearchPage.qml:36
 msgid "Are you really sure you want to delete this contact?"
 msgstr ""
 
-#: ../qml/ui/components/display/Recents.qml:55
+#: ../qml/ui/components/display/Recents.qml:77
 msgid "All Contacts"
 msgstr ""
 
-#: ../qml/ui/components/display/Recents.qml:91
+#: ../qml/ui/components/display/Recents.qml:113
 msgid "No contacts"
 msgstr ""
 
@@ -80,8 +80,8 @@ msgid "Add notes..."
 msgstr ""
 
 #: ../qml/ui/components/widget/NotesEditor.qml:11
-#: ../qml/ui/pages/ContactInfoPage.qml:117
-#: ../qml/ui/pages/ContactInfoPage.qml:416
+#: ../qml/ui/pages/ContactInfoPage.qml:172
+#: ../qml/ui/pages/ContactInfoPage.qml:477
 msgid "Notes"
 msgstr ""
 
@@ -94,80 +94,94 @@ msgstr ""
 msgid "No call history"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:30
+#: ../qml/ui/pages/ContactInfoPage.qml:31
 msgid "Contact Info"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:35 ../qml/ui/pages/GroupInfoPage.qml:101
+#: ../qml/ui/pages/ContactInfoPage.qml:36 ../qml/ui/pages/GroupInfoPage.qml:101
 #: ../qml/ui/pages/OdooSyncPage.qml:256
 msgid "Edit"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:35 ../qml/ui/pages/GroupInfoPage.qml:101
-#: ../qml/ui/pages/NewContactPage.qml:25 ../qml/ui/pages/NewGroupPage.qml:51
+#: ../qml/ui/pages/ContactInfoPage.qml:36 ../qml/ui/pages/GroupInfoPage.qml:101
+#: ../qml/ui/pages/NewContactPage.qml:27 ../qml/ui/pages/NewGroupPage.qml:51
 #: ../qml/ui/pages/OdooSyncPage.qml:767 ../qml/ui/pages/SettingsPage.qml:83
 msgid "Save"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:116
+#: ../qml/ui/pages/ContactInfoPage.qml:61 ../qml/ui/pages/NewContactPage.qml:49
+#: ../qml/ui/pages/OdooSyncPage.qml:295
+msgid "Sync Status"
+msgstr ""
+
+#: ../qml/ui/pages/ContactInfoPage.qml:65 ../qml/ui/pages/NewContactPage.qml:53
+#: ../qml/ui/pages/OdooSyncPage.qml:841 ../qml/ui/pages/OdooSyncPage.qml:862
+msgid "OK"
+msgstr ""
+
+#: ../qml/ui/pages/ContactInfoPage.qml:157
+msgid "Failed to sync changes to Odoo: "
+msgstr ""
+
+#: ../qml/ui/pages/ContactInfoPage.qml:171
 msgid "Info"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:168
-#: ../qml/ui/pages/NewContactPage.qml:120
+#: ../qml/ui/pages/ContactInfoPage.qml:223
+#: ../qml/ui/pages/NewContactPage.qml:220
 msgid "First Name"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:176
-#: ../qml/ui/pages/NewContactPage.qml:128
+#: ../qml/ui/pages/ContactInfoPage.qml:231
+#: ../qml/ui/pages/NewContactPage.qml:228
 msgid "Last Name"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:204
+#: ../qml/ui/pages/ContactInfoPage.qml:259
 msgid "Contact Type"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:226
-#: ../qml/ui/pages/ContactInfoPage.qml:263
+#: ../qml/ui/pages/ContactInfoPage.qml:282
+#: ../qml/ui/pages/ContactInfoPage.qml:324
 msgid "Individual"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:249
-#: ../qml/ui/pages/ContactInfoPage.qml:263
+#: ../qml/ui/pages/ContactInfoPage.qml:308
+#: ../qml/ui/pages/ContactInfoPage.qml:324
 msgid "Company"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:282
-#: ../qml/ui/pages/NewContactPage.qml:146
-#: ../qml/ui/pages/UserProfilePage.qml:91
+#: ../qml/ui/pages/ContactInfoPage.qml:343
+#: ../qml/ui/pages/NewContactPage.qml:246
+#: ../qml/ui/pages/UserProfilePage.qml:160
 msgid "Phone"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:315
-#: ../qml/ui/pages/NewContactPage.qml:171
-#: ../qml/ui/pages/UserProfilePage.qml:66
+#: ../qml/ui/pages/ContactInfoPage.qml:376
+#: ../qml/ui/pages/NewContactPage.qml:271
+#: ../qml/ui/pages/UserProfilePage.qml:135
 msgid "Email"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:349
-#: ../qml/ui/pages/NewContactPage.qml:197
+#: ../qml/ui/pages/ContactInfoPage.qml:410
+#: ../qml/ui/pages/NewContactPage.qml:297
 msgid "Country Code"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:382
-#: ../qml/ui/pages/NewContactPage.qml:222
+#: ../qml/ui/pages/ContactInfoPage.qml:443
+#: ../qml/ui/pages/NewContactPage.qml:322
 msgid "Favorite"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:395
+#: ../qml/ui/pages/ContactInfoPage.qml:456
 msgid "No"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:395
+#: ../qml/ui/pages/ContactInfoPage.qml:456
 msgid "Yes"
 msgstr ""
 
-#: ../qml/ui/pages/ContactInfoPage.qml:415
+#: ../qml/ui/pages/ContactInfoPage.qml:476
 msgid "Add notes about this contact..."
 msgstr ""
 
@@ -231,7 +245,7 @@ msgstr ""
 msgid "No contacts in this group"
 msgstr ""
 
-#: ../qml/ui/pages/GroupsPage.qml:26 ../qml/ui/pages/MainPage.qml:90
+#: ../qml/ui/pages/GroupsPage.qml:26 ../qml/ui/pages/MainPage.qml:117
 msgid "Groups"
 msgstr ""
 
@@ -259,47 +273,51 @@ msgstr ""
 msgid "No groups yet. Create one to get started!"
 msgstr ""
 
-#: ../qml/ui/pages/MainPage.qml:78
+#: ../qml/ui/pages/MainPage.qml:105
 msgid "Phonebook"
 msgstr ""
 
-#: ../qml/ui/pages/MainPage.qml:83
+#: ../qml/ui/pages/MainPage.qml:110
 msgid "Close Search"
 msgstr ""
 
-#: ../qml/ui/pages/MainPage.qml:83
+#: ../qml/ui/pages/MainPage.qml:110
 msgid "Search"
 msgstr ""
 
-#: ../qml/ui/pages/MainPage.qml:105 ../qml/ui/pages/UserProfilePage.qml:10
+#: ../qml/ui/pages/MainPage.qml:132 ../qml/ui/pages/UserProfilePage.qml:11
 msgid "Profile"
 msgstr ""
 
-#: ../qml/ui/pages/MainPage.qml:113 ../qml/ui/pages/SettingsPage.qml:91
+#: ../qml/ui/pages/MainPage.qml:140 ../qml/ui/pages/SettingsPage.qml:91
 msgid "Settings"
 msgstr ""
 
-#: ../qml/ui/pages/MainPage.qml:175 ../qml/ui/pages/SearchPage.qml:83
+#: ../qml/ui/pages/MainPage.qml:202 ../qml/ui/pages/SearchPage.qml:91
 msgid "Search Results"
 msgstr ""
 
-#: ../qml/ui/pages/MainPage.qml:219 ../qml/ui/pages/SearchPage.qml:130
+#: ../qml/ui/pages/MainPage.qml:246 ../qml/ui/pages/SearchPage.qml:138
 msgid "No contacts found"
 msgstr ""
 
-#: ../qml/ui/pages/NewContactPage.qml:20
+#: ../qml/ui/pages/NewContactPage.qml:22
 msgid "New Contact"
 msgstr ""
 
-#: ../qml/ui/pages/NewContactPage.qml:154
+#: ../qml/ui/pages/NewContactPage.qml:147
+msgid "Contact created locally but failed to sync to Odoo: "
+msgstr ""
+
+#: ../qml/ui/pages/NewContactPage.qml:254
 msgid "Phone number"
 msgstr ""
 
-#: ../qml/ui/pages/NewContactPage.qml:179
+#: ../qml/ui/pages/NewContactPage.qml:279
 msgid "Email address"
 msgstr ""
 
-#: ../qml/ui/pages/NewContactPage.qml:205
+#: ../qml/ui/pages/NewContactPage.qml:305
 msgid "Country code (e.g., +1)"
 msgstr ""
 
@@ -340,10 +358,6 @@ msgstr ""
 
 #: ../qml/ui/pages/OdooSyncPage.qml:280
 msgid "No accounts configured"
-msgstr ""
-
-#: ../qml/ui/pages/OdooSyncPage.qml:295
-msgid "Sync Status"
 msgstr ""
 
 #: ../qml/ui/pages/OdooSyncPage.qml:324
@@ -522,10 +536,6 @@ msgstr ""
 msgid "Operation completed successfully"
 msgstr ""
 
-#: ../qml/ui/pages/OdooSyncPage.qml:841 ../qml/ui/pages/OdooSyncPage.qml:862
-msgid "OK"
-msgstr ""
-
 #: ../qml/ui/pages/OdooSyncPage.qml:853
 msgid "Error"
 msgstr ""
@@ -578,22 +588,36 @@ msgstr ""
 msgid "OS-OSi-Phonebook"
 msgstr ""
 
-#: ../qml/ui/pages/UserProfilePage.qml:46
-msgid "User Name"
+#: ../qml/ui/pages/UserProfilePage.qml:45
+msgid "Odoo User"
+msgstr ""
+
+#: ../qml/ui/pages/UserProfilePage.qml:68
+#: ../qml/ui/pages/UserProfilePage.qml:71
+#: ../qml/ui/pages/UserProfilePage.qml:141
+#: ../qml/ui/pages/UserProfilePage.qml:166
+msgid "Not set"
 msgstr ""
 
 #: ../qml/ui/pages/UserProfilePage.qml:72
-msgid "user@example.com"
+msgid "Odoo Account"
 msgstr ""
 
-#: ../qml/ui/pages/UserProfilePage.qml:97
-msgid "+1 234 567 8900"
+#: ../qml/ui/pages/UserProfilePage.qml:75
+#: ../qml/ui/pages/UserProfilePage.qml:115
+msgid "User"
 msgstr ""
 
-#: ../qml/ui/pages/UserProfilePage.qml:116
+#: ../qml/ui/pages/UserProfilePage.qml:76
+#: ../qml/ui/pages/UserProfilePage.qml:77
+msgid "Not configured"
+msgstr ""
+
+#: ../qml/ui/pages/UserProfilePage.qml:78
+#: ../qml/ui/pages/UserProfilePage.qml:191
+msgid "Local Account"
+msgstr ""
+
+#: ../qml/ui/pages/UserProfilePage.qml:185
 msgid "Account"
-msgstr ""
-
-#: ../qml/ui/pages/UserProfilePage.qml:122
-msgid "Phonebook Account"
 msgstr ""
